@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">VK Friends</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Activity titles -->
+    <string name="title_activity_friends">FriendsActivity</string>
+
+    <!-- VK Application ID -->
+    <integer name="com_vk_sdk_AppId">5427371</integer>
+
+</resources>
