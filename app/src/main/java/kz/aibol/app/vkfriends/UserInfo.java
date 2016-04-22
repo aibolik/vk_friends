@@ -1,19 +1,17 @@
 package kz.aibol.app.vkfriends;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by aibol on 4/22/16.
  */
 public class UserInfo {
     private int id;
     private String name;
-    private Bitmap image;
+    private String imgUrl;
 
-    public UserInfo(int id, String name, Bitmap image) {
+    public UserInfo(int id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
-        this.image = image;
+        this.imgUrl = imageUrl;
     }
 
     public int getId() {
@@ -32,11 +30,11 @@ public class UserInfo {
         this.name = name;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }
