@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
@@ -13,7 +14,9 @@ import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
+
+    private boolean isResumed = false;
 
     private static final String[] sMyScope = new String[]{
             VKScope.FRIENDS
@@ -29,8 +32,56 @@ public class MainActivity extends AppCompatActivity {
         initView();
         initToolBar();
 
-        VKSdk.login(this, sMyScope);
+        VKSdk.wakeUpSession(this, new VKCallback<VKSdk.LoginState>() {
+            @Override
+            public void onResult(VKSdk.LoginState res) {
+                if (isResumed) {
+                    switch (res) {
+                        case LoggedOut:
+                            //VKSdk.login(LoginActivity.this, sMyScope);
+                            break;
+                        case LoggedIn:
+                            startFriendsActivity();
+                            finish();
+                            break;
+                        case Pending:
+                            break;
+                        case Unknown:
+                            break;
+                    }
+                }
+            }
 
+            @Override
+            public void onError(VKError error) {
+
+            }
+        });
+
+        findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VKSdk.login(LoginActivity.this, sMyScope);
+            }
+        });
+
+        //
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isResumed = true;
+//        if (VKSdk.isLoggedIn()) {
+//            startFriendsActivity();
+//        }
+    }
+
+    @Override
+    protected void onPause() {
+        isResumed = false;
+        super.onPause();
     }
 
     @Override
@@ -60,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startFriendsActivity() {
-        startActivity(new Intent(this, FriendsActivity.class));
+        startActivity(new Intent(this, FriendsActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
     }
 
 

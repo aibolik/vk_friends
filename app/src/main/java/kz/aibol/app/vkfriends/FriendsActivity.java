@@ -1,12 +1,16 @@
 package kz.aibol.app.vkfriends;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
@@ -41,13 +46,12 @@ public class FriendsActivity extends AppCompatActivity {
         initToolBar();
         initView();
 
-
         Snackbar.make(mCoordinatorLayout, "Authorized successfully", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
         VKRequest request = VKApi.friends().get(VKParameters.from(
-                                                VKApiConst.FIELDS, "photo_100,online",
-                                                VKApiConst.NAME_CASE, "ins",
-                                                "order", "name"));
+                VKApiConst.FIELDS, "photo_100,online",
+                VKApiConst.NAME_CASE, "ins",
+                "order", "name"));
 
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
@@ -62,6 +66,30 @@ public class FriendsActivity extends AppCompatActivity {
                 friendsList.setAdapter(adapter);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                VKSdk.logout();
+                startLoginActivity();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void startLoginActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
     private void initToolBar() {
