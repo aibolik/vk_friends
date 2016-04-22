@@ -37,8 +37,10 @@ public class FriendsActivity extends AppCompatActivity {
 
     private CoordinatorLayout mCoordinatorLayout;
     private ListView friendsList;
+    private Bitmap tempBitmap;
 
     private static ArrayList<UserInfo> data;
+    private static ArrayList<Bitmap> imgs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class FriendsActivity extends AppCompatActivity {
         friendsList = (ListView) findViewById(R.id.friendsList);
 
         data = new ArrayList<>();
+        imgs = new ArrayList<>();
 //        data.add(new UserInfo(1, "Aibol Kussain", null));
 //        data.add(new UserInfo(2, "Anuar Mukashev", null));
 //        data.add(new UserInfo(3, "Arnur Rakhmadiyev", null));
@@ -183,7 +186,10 @@ public class FriendsActivity extends AppCompatActivity {
 
             String fullName = name + " " + lastname;
 
+//            new DownloadImageTask().execute(photoUrl);
+//            UserInfo newFriend = new UserInfo(id, fullName, tempBitmap);
             UserInfo newFriend = new UserInfo(id, fullName, photoUrl);
+
             data.add(newFriend);
         }
     }
@@ -226,7 +232,9 @@ public class FriendsActivity extends AppCompatActivity {
             }
 
             viewHolder.txtFullName.setText(data.get(position).getName());
-            new DownloadImageTask(viewHolder.imgAvatar).execute(data.get(position).getImgUrl());
+//            viewHolder.imgAvatar.setImageBitmap(data.get(position).getImage());
+//            viewHolder.imgAvatar.setImageBitmap(imgs.get(position));
+            new DownloadImageTask(viewHolder.imgAvatar).execute(data.get(position).getImageUrl());
 
 
             return convertView;
@@ -246,7 +254,7 @@ public class FriendsActivity extends AppCompatActivity {
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
-
+//
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }

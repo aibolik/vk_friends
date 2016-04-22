@@ -6,12 +6,18 @@ package kz.aibol.app.vkfriends;
 public class UserInfo {
     private int id;
     private String name;
-    private String imgUrl;
+    //    private Bitmap image;
+    private String imageUrl;
 
+    //    public UserInfo(int id, String name, Bitmap image) {
+//        this.id = id;
+//        this.name = name;
+//        this.image = image;
+//    }
     public UserInfo(int id, String name, String imageUrl) {
         this.id = id;
         this.name = name;
-        this.imgUrl = imageUrl;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -30,11 +36,19 @@ public class UserInfo {
         this.name = name;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
+
+    //    public Bitmap getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(Bitmap image) {
+//        this.image = image;
+//    }
 }
